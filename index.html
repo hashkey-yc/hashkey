@@ -296,15 +296,6 @@
     </section>
 
     <!-- ========== 遮罩与弹层 ========== -->
-    <div class="mask" id="mask" onclick="closeSheets()"></div>
-
-    <div class="sheet" id="sheet-discard" role="dialog" aria-label="放弃设置">
-      <div class="sheet-head"><h2 id="discard-title">放弃设置防钓鱼码？</h2></div>
-      <p class="sheet-sub" id="discard-sub">您填写的内容不会被保存，防钓鱼码仍为未开启状态。</p>
-      <button class="btn" type="button" onclick="closeSheets()">继续设置</button>
-      <button class="btn-text is-danger" type="button" onclick="confirmDiscard()">放弃并返回</button>
-    </div>
-
     <div class="toast" id="toast"></div>
   </div>
 </div>
@@ -327,7 +318,7 @@
   </section>
   <section>
     <h2>键盘</h2>
-    <p style="margin:0 0 8px">Tab / Shift+Tab 在可点元素间移动，Enter 触发，Esc 关闭弹层。</p>
+      <p style="margin:0 0 8px">Tab / Shift+Tab 在可点元素间移动；设置页点返回直接回到安全设置，已输入内容不会保存。</p>
     <button class="reset" type="button" onclick="resetDemo()">重置为未开启状态</button>
   </section>
 </aside>
@@ -403,34 +394,9 @@
     toast(isEdit ? "修改成功" : "设置成功");
   };
 
-  /* ---------- 返回：有未保存内容时确认 ---------- */
+  /* ---------- 返回：与空白页一致，直接回列表，状态保持进入前 ---------- */
   window.leaveCodePage = function(){
-    if ($("code-input").value.length > 0){
-      var isEdit = state.mode === "edit";
-      $("discard-title").textContent = isEdit ? "放弃修改防钓鱼码？" : "放弃设置防钓鱼码？";
-      $("discard-sub").textContent = isEdit
-        ? "您填写的内容不会被保存，防钓鱼码仍为当前的 " + state.code + "。"
-        : "您填写的内容不会被保存，防钓鱼码仍为未开启状态。";
-      openSheet("sheet-discard");
-      return;
-    }
     show("v-settings");
-  };
-
-  window.confirmDiscard = function(){
-    closeSheets();
-    show("v-settings");
-    toast(state.mode === "edit" ? "已取消修改" : "已取消设置");
-  };
-
-  function openSheet(id){
-    $("mask").classList.add("is-active");
-    $(id).classList.add("is-active");
-  }
-  window.closeSheets = function(){
-    var sheets = document.querySelectorAll(".sheet");
-    for (var i=0;i<sheets.length;i++) sheets[i].classList.remove("is-active");
-    $("mask").classList.remove("is-active");
   };
 
   /* ---------- 列表行状态 ---------- */
@@ -447,12 +413,8 @@
 
   window.resetDemo = function(){
     state.code = null; state.mode = "create";
-    renderRow(); closeSheets(); show("v-settings"); toast("已重置为未开启状态");
+    renderRow(); show("v-settings"); toast("已重置为未开启状态");
   };
-
-  document.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && $("mask").classList.contains("is-active")) closeSheets();
-  });
 
   renderRow();
 })();
