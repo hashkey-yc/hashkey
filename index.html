@@ -104,21 +104,10 @@
     font-size:13px;line-height:1.6;color:var(--warn-text);margin-top:8px;
   }
   .notice svg{flex:0 0 auto;margin-top:2px}
-  .faq{margin-top:22px;border-top:1px solid var(--line)}
-  .faq-item{border-bottom:1px solid var(--line)}
-  .faq-q{
-    width:100%;background:transparent;border:0;font:inherit;font-size:15px;color:var(--text);
-    padding:14px 0;display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left;
-  }
-  .faq-q .plus{width:12px;height:12px;position:relative;flex:0 0 auto;margin-left:12px}
-  .faq-q .plus::before,.faq-q .plus::after{
-    content:"";position:absolute;background:var(--text-3);transition:transform .18s ease;
-  }
-  .faq-q .plus::before{left:0;right:0;top:5px;height:2px}
-  .faq-q .plus::after{top:0;bottom:0;left:5px;width:2px}
-  .faq-item.is-open .plus::after{transform:scaleY(0)}
-  .faq-a{display:none;font-size:13px;line-height:1.75;color:var(--text-2);padding:0 0 14px}
-  .faq-item.is-open .faq-a{display:block}
+  .faq{margin-top:22px}
+  .faq-item{padding:0 0 16px}
+  .faq-q{font-size:15px;color:var(--text);margin:0 0 8px}
+  .faq-a{font-size:13px;line-height:1.75;color:var(--text-2);margin:0}
 
   .field{margin-top:24px}
   .field label{display:block;font-size:14px;color:var(--text);margin-bottom:8px}
@@ -284,16 +273,12 @@
         </div>
 
         <div class="faq" id="code-faq">
-          <div class="faq-item is-open">
-            <button class="faq-q" type="button" onclick="toggleFaq(this)" aria-expanded="true">
-              什么是防钓鱼码？<span class="plus"></span>
-            </button>
+          <div class="faq-item">
+            <div class="faq-q">什么是防钓鱼码？</div>
             <div class="faq-a">防钓鱼码是你自己设置的一串字符，能够帮助你识别仿冒 HashKey 的网站或者邮件。</div>
           </div>
           <div class="faq-item">
-            <button class="faq-q" type="button" onclick="toggleFaq(this)" aria-expanded="false">
-              防钓鱼码会出现在哪？<span class="plus"></span>
-            </button>
+            <div class="faq-q">防钓鱼码会出现在哪？</div>
             <div class="faq-a">设置好防钓鱼码后，每一封 HashKey 发给您的邮件都会带有这串字符。</div>
           </div>
         </div>
@@ -333,7 +318,7 @@
     <h2>怎么走流程</h2>
     <ol>
       <li>安全设置 → 高级设置 → <b>防钓鱼码（未开启）</b></li>
-      <li>展开/收起说明，输入防钓鱼码，如 <code>SafeWord</code></li>
+      <li>阅读常显说明，输入防钓鱼码，如 <code>SafeWord</code></li>
       <li>输入 1-2 位时直接弹红字提示，满 3 位后提示消失</li>
       <li>最多输入 10 位，超出无法继续输入</li>
       <li>点「确认」→ 回到安全设置，提示「设置成功 / 修改成功」</li>
@@ -374,12 +359,6 @@
     el.classList.add("is-active");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function(){ el.classList.remove("is-active"); }, 1800);
-  };
-
-  window.toggleFaq = function(btn){
-    var item = btn.parentNode;
-    var open = item.classList.toggle("is-open");
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
   };
 
   /* ---------- 入口：列表行 ---------- */
